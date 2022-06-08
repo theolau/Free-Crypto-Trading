@@ -1,3 +1,4 @@
+/*
 function getApi() {
   console.log(config);
   const myHeaders = new Headers();
@@ -20,3 +21,4 @@ function getApi() {
     .catch(error => console.log('error', error));
 }
 getApi();
+*/

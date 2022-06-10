@@ -34,7 +34,7 @@
       <h1>Recent News</h1>
       <div class="news-item" id="news">
 
-<!-- We dynamically generate this section
+        <!-- We dynamically generate this section
 
         <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
         <div class="news-body">
@@ -55,16 +55,16 @@
         <div class="current-price"><a id="price">100.00</a> USD</div>
         <div id="price-chart">Chart insert here</div>
         <div class="action">
-            <label for="amount">Amount</label>
-            <input type="number" id="amount" name = "amount">
-          <button>Buy</button>
-          <button>Sell</button>
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" name="amount">
+          <button id="buy">Buy</button>
+          <button id="sell">Sell</button>
         </div>
       </div>
 
     </div>
   </div>
-  <div class="portfolio-section">
+  <div class="portfolio-section" id="portfolio">
     <h1>My Portfolio</h1>
     <div class="coinList"></div>
     <div class="coin">
@@ -74,6 +74,7 @@
       <h5>Today's Gain/loss</h5>
       <h5>Total Gain/loss</h5>
     </div>
+    <!-- We dynamically generate this section
     <div class="coin coin1">
       <a href="$">coin1</a>
       <div>Value</div>
@@ -95,7 +96,8 @@
       <div>Growth today</div>
       <div>growth total</div>
     </div>
-    <div class="coin">
+    -->
+    <div class="coin" id="portfolio-total">
       <div><b>Account Total</b></div>
       <div>growth total</div>
     </div>

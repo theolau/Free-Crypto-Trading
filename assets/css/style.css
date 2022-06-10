@@ -185,12 +185,23 @@ h1{
     align-content: center;
 }
 
+.action label{
+    align-self: center;
+}
+
+#amount{
+    width: 20%;
+    border-color: rgb(214,214,214);
+    border-style: groove;
+}
+
+
 .action button{
     padding: 1% 8%;
     background-color: rgb(50, 146, 255);
     border-radius: 0%;
     border: none;
-    width: 38%;
+    width: 25%;
     text-align: center;
     font-size: 14px;
     color: aliceblue;

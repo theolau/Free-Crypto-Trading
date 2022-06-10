@@ -8,6 +8,7 @@ const currentPrice = 20000;
 // hardcoded for now
 let savedPurchasePrice = 10000;
 let savedQuantity = 5;
+let availableCash = 100000;
 
 
 function createCoinRow(ticker, purchasePrice, quantity) {
@@ -57,18 +58,31 @@ function updateCoinRow(ticker, costBasis, quantity) {
 
 
 document.getElementById("buy").onclick = function () {
-  const quantity = parseInt(document.getElementById("amount").value, 10);
+  const quantity = parseFloat(document.getElementById("amount").value, 10);
+
+  // TODO: display some error
+  if (quantity * currentPrice > availableCash) {
+    console.log("insufficient cash to purchase");
+    return;
+  }
+
+  // TODO: display some error
+  if (quantity <= 0) {
+    console.log("you're not allowed to buy/sell zero or negatives")
+    return;
+  }
 
   // TODO: If ticker exists in client side storage, then we update the row instead of making a new one
-  // for now, while we don't have client side storage, we check the html for a matching element
-  if (document.getElementById(symbol) != null) {
+  // for now, we just check our variables
+  if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
 
     // Calculate the new values to display
     let newCostBasis = ((savedPurchasePrice * savedQuantity) + (currentPrice * quantity)) / (savedQuantity + quantity);
+    newCostBasis = Math.round(newCostBasis * 1000000) / 1000000; // JS floats...
     let newQuantity = savedQuantity + quantity;
+    newQuantity = Math.round(newQuantity * 1000000) / 1000000;
 
     updateCoinRow(symbol, newCostBasis, newQuantity)
-    console.log("symbol", symbol, "newcostbasis", newCostBasis, "qty", newQuantity);
 
     // TODO: save data in client side storage
     // for now, we save to global variables
@@ -80,10 +94,59 @@ document.getElementById("buy").onclick = function () {
 
     // TODO: save data in client side storage
     // for now, we save to global variables
-    savedPurchasePrice = currentPrice;
-    savedQuantity = quantity;
+    savedPurchasePrice = Math.round(currentPrice * 1000000) / 1000000;
+    savedQuantity = Math.round(quantity * 1000000) / 1000000;
   }
 
+  availableCash = Math.round((availableCash - (currentPrice * quantity)) * 1000000) / 1000000;
+  console.log(availableCash + " dollars available now")
+
+};
+
+
+document.getElementById("sell").onclick = function () {
+  const quantity = parseFloat(document.getElementById("amount").value, 10);
+
+  // TODO: If statement should check if ticker exists in client side storage
+  // for now, we just check our variables
+  if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
+
+    // We do not allow people to short
+    // TODO: display some error
+    if (quantity > savedQuantity) {
+      console.log("you can't sell more of this symbol than you own");
+      return;
+    }
+
+    // TODO: display some error
+    if (quantity <= 0) {
+      console.log("you're not allowed to buy/sell zero or negatives")
+      return;
+    }
+
+    if (savedQuantity - quantity == 0) {
+      // TODO: Delete row
+    }
+    else {
+      let newCostBasis = ((savedPurchasePrice * savedQuantity) - (currentPrice * quantity)) / (savedQuantity - quantity);
+      newCostBasis = Math.round(newCostBasis * 1000000) / 1000000; // JS floats...
+      let newQuantity = savedQuantity - quantity;
+      newQuantity = Math.round(newQuantity * 1000000) / 1000000;
+
+      updateCoinRow(symbol, newCostBasis, newQuantity)
+
+      // TODO: save data in client side storage
+      // for now, we save to global variables
+      savedPurchasePrice = newCostBasis;
+      savedQuantity = newQuantity;
+      availableCash = Math.round((availableCash + (currentPrice * quantity)) * 1000000) / 1000000;
+      console.log(availableCash + " dollars available now")
+    }
+  }
+  else {
+    // TODO: display some error
+    console.log("you don't own this coin")
+  }
 };
 
 

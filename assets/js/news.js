@@ -60,6 +60,11 @@ function newsApi(ticker)
             // Append a link to the full article
             newsContainer.insertAdjacentHTML('beforeend', "<a href=\"" + data.results[i].link + "\">Full article</a>"); 
         }
+        const rememberDivcoin1value = document.querySelector('.remember');
+       const rememberDivcoin2value = document.querySelector('.remember');
+       const rememberDivcoinvalue = document.querySelector('.remember');
+       const forgetDiv = document.querySelector('.forget');
+
       })
       .catch(function (error) {
         console.log('error', error);

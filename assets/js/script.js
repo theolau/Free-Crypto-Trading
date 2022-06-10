@@ -37,7 +37,7 @@ function createCoinRow(ticker, purchasePrice, quantity) {
 
   var newTotalGainLoss = document.createElement('h5');
   newTotalGainLoss.setAttribute("id", symbol + "-total-gl");
-  newTotalGainLoss.textContent = quantity * (currentPrice - purchasePrice)
+  newTotalGainLoss.textContent = (quantity * (currentPrice - purchasePrice)).toFixed(2)
 
   newRow.append(newSymbol, newCurrentValue, newQuantity, newTodayGainLoss, newTotalGainLoss);
 
@@ -52,8 +52,7 @@ function updateCoinRow(ticker, costBasis, quantity) {
   // TODO: call api to calculate a value for this
   document.getElementById(ticker + "-today-gl").textContent = "TODO: Fix this v2";
 
-  let totalGL = quantity * (currentPrice - costBasis)
-  document.getElementById(ticker + "-total-gl").textContent = totalGL.toFixed(2);
+  document.getElementById(ticker + "-total-gl").textContent = (quantity * (currentPrice - costBasis)).toFixed(2);
 }
 
 

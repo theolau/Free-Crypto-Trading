@@ -24,7 +24,7 @@ function newsApi(ticker)
         // TODO: remove this prior to release
         console.log(data);
         console.log(data.results.length);
-        
+
         for (let i = 0; i < Math.min(data.results.length, 5); i++) {
             var articleTitle = document.createElement('a');
             articleTitle.setAttribute("class", "news-tittle");
@@ -40,16 +40,24 @@ function newsApi(ticker)
             
             // We check for results.content being null
             // This api returns some articles with content == null & something in results.description
-            if (data.results[i].content != null) {
+
+/*            if (data.results[i].content != null) {
                 var content = data.results[i].content;
             }
             else {
                 var content = data.results[i].description;
             }
-
+*/
+            if (data.results[i].description != null) {
+              var content = data.results[i].description;
+            }
+            else {
+              var content = data.results[i].content;
+            }
+            
             // We cap article body length at 500 chars for UI purposes & set body content
-            if (content.length > 1000) {
-                articleBody.textContent = content.slice(0,500) + " [...]"; }
+            if (content.length > 500) {
+                articleBody.textContent = content.slice(0,500) + "[...]"; }
             else {
                 articleBody.textContent = content;
             }

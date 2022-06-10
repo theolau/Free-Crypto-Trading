@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bitcoin Dashboard</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bitcoin Dashboard</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
+
 <body>
-    <!-- navbar section -->
-<nav class="navbar">
+  <!-- navbar section -->
+  <nav class="navbar">
     <div class="logo">
       Cryptocurrency
     </div>
-    
+
     <div class="search-section">
       <form action="http://www.google.com/search" method="get" class="search-bar">
         <input type="text" placeholder="Search crypto" name="q">
@@ -24,19 +26,27 @@
       <img src="avatar-img.png" alt="Avatar" class="avatar">
     </div>
   </nav>
-  
-<!-- body section -->
+
+  <!-- body section -->
 
   <div class="mainSection">
     <div class="news-section">
-        <h1>Recent News</h1>
-          <div class="news-item">
-          <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
-          <div class="news-body">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam tempore, praesentium numquam beatae dolore.
-          </div>
-          <a style="padding: 2% 9%;" href="$">Learn more</a>
+      <h1>Recent News</h1>
+      <div class="news-item" id="news">
+
+<!-- We dynamically generate this section
+
+        <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
+        <div class="news-body">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere
+          ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum
+          hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam
+          tempore, praesentium numquam beatae dolore.
         </div>
+        <a style="padding: 2% 9%;" href="$">Learn more</a>
+-->
+
+      </div>
     </div>
 
     <div class="graph-section">
@@ -49,49 +59,50 @@
           <button>Sell</button>
         </div>
       </div>
-      
+
     </div>
   </div>
   <div class="portfolio-section">
     <h1>My Portfolio</h1>
     <div class="coinList"></div>
-        <div class="coin">
-          <h5>Symbol</h5>
-          <h5>Current value</h5>
-          <h5>Quantity</h5>
-          <h5>Today's Gain/loss</h5>
-          <h5>Total Gain/loss</h5>
-        </div>
-        <div class="coin coin1">
-          <a href="$">coin1</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin">
-          <a href="$">coin2</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin coin1">
-          <a href="$">coin3</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin">
-          <div><b>Account Total</b></div>
-          <div>growth total</div>
-      </div>
-      </div>
+    <div class="coin">
+      <h5>Symbol</h5>
+      <h5>Current value</h5>
+      <h5>Quantity</h5>
+      <h5>Today's Gain/loss</h5>
+      <h5>Total Gain/loss</h5>
     </div>
+    <div class="coin coin1">
+      <a href="$">coin1</a>
+      <div>Value</div>
+      <div>1</div>
+      <div>Growth today</div>
+      <div>growth total</div>
+    </div>
+    <div class="coin">
+      <a href="$">coin2</a>
+      <div>Value</div>
+      <div>1</div>
+      <div>Growth today</div>
+      <div>growth total</div>
+    </div>
+    <div class="coin coin1">
+      <a href="$">coin3</a>
+      <div>Value</div>
+      <div>1</div>
+      <div>Growth today</div>
+      <div>growth total</div>
+    </div>
+    <div class="coin">
+      <div><b>Account Total</b></div>
+      <div>growth total</div>
+    </div>
+  </div>
+  </div>
   </div>
   <script src="./assets/js/config.js"></script>
   <script src="./assets/js/script.js"></script>
   <script src="./assets/js/news.js"></script>
 </body>
+
 </html>

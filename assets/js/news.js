@@ -23,18 +23,20 @@ function newsApi(ticker)
         // Outputs response to console
         // TODO: remove this prior to release
         console.log(data);
-
         console.log(data.results.length);
-        for (let i = 0; i < data.results.length; i++) {
-            var articleTitle = document.createElement('h3');
-            var articleAuthor = document.createElement('h4');
-            var articleBody = document.createElement('p');
+        
+        for (let i = 0; i < Math.min(data.results.length, 5); i++) {
+            var articleTitle = document.createElement('a');
+            articleTitle.setAttribute("class", "news-tittle");
+            //var articleAuthor = document.createElement('h4');
+            var articleBody = document.createElement('div');
+            articleBody.setAttribute("class", "news-body");
     
             // Set title content
             articleTitle.textContent = data.results[i].title;
 
             // Set author content
-            articleAuthor.textContent = data.results[i].creator[0] + " from " + data.results[i].source_id;
+            //articleAuthor.textContent = data.results[i].creator[0] + " from " + data.results[i].source_id;
             
             // We check for results.content being null
             // This api returns some articles with content == null & something in results.description
@@ -45,20 +47,20 @@ function newsApi(ticker)
                 var content = data.results[i].description;
             }
 
-            // We cap article body length at 1k chars for UI purposes & set body content
+            // We cap article body length at 500 chars for UI purposes & set body content
             if (content.length > 1000) {
-                articleBody.textContent = content.slice(0,1000) + " [...]"; }
+                articleBody.textContent = content.slice(0,500) + " [...]"; }
             else {
                 articleBody.textContent = content;
             }
             
             // Append
             newsContainer.append(articleTitle);
-            newsContainer.append(articleAuthor);
+            //newsContainer.append(articleAuthor);
             newsContainer.append(articleBody);
             
             // Append a link to the full article
-            newsContainer.insertAdjacentHTML('beforeend', "<a href=\"" + data.results[i].link + "\">Full article</a>"); 
+            newsContainer.insertAdjacentHTML('beforeend', "<a style=\"padding: 2% 9%;\" href=\"" + data.results[i].link + "\">Learn more</a>"); 
         }
       })
       .catch(function (error) {

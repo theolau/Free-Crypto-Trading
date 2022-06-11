@@ -135,17 +135,17 @@ function pageRefresh() {
 setInterval(pageRefresh, 15000);
 
 
-// Rounds to 6 decimal places. Solves numerical drift from JS floats
+// Rounds to 10 decimal places. Solves numerical drift from JS floats
 // & allows us to only store a calculated cost basis + qty, instead of storing an array of transactions
 function round(x) {
-  return Math.round(x * 1000000) / 1000000;
+  return Math.round(x * 10000000000) / 10000000000;
 }
 
 
 //document.getElementById("amount").addEventListener('change', updateValue);
 
 $('#amount').on('keyup change textInput input', function () {
-  if (this.value == 0) { return; }
+  if (this.value == 0) { document.getElementById("total-price").textContent = "$0.00"; }
   else { document.getElementById("total-price").textContent = "$" + (parseFloat(this.value, 10) * currentPrice(symbol)).toFixed(2); }
 });
 

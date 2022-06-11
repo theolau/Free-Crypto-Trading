@@ -42,14 +42,6 @@ function newsApi(ticker) {
 
         // We check for results.content being null
         // This api returns some articles with content == null & something in results.description
-
-        /*            if (data.results[i].content != null) {
-                        var content = data.results[i].content;
-                    }
-                    else {
-                        var content = data.results[i].description;
-                    }
-        */
         if (data.results[i].description != null) {
           var content = data.results[i].description;
         }

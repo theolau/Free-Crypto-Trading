@@ -1,11 +1,25 @@
+// This is the current working symbol
+var symbol = "btc";
 
-// Test variables
-// TODO: replace with calls to functions that return api data when complete
-const symbol = "btc";
-const currentPrice = 20000;
+// Returns the current price of a coin - currently using hardcoded data
+// TODO: this function needs to call our API and return a current price for a given coin
+function currentPrice(ticker) {
+  switch (ticker) {
+    case "btc": return 20000;
+    case "eth": return 2000;
+    case "xrp": return 0.3;
+    case "doge": return 0.1;
+    case "dai": return 1;
+    default: return 999999;
+  }
+}
 
 // TODO: read these values from client side storage
 // hardcoded for now
+var portfolioData = {
+  btc: { savedPurchasePrice: 10000, savedQuantity: 5 },
+  eth: { savedPurchasePrice: 1500, savedQuantity: 12 }
+};
 let savedPurchasePrice = 10000;
 let savedQuantity = 5;
 let availableCash = 100000;
@@ -13,47 +27,47 @@ let availableCash = 100000;
 
 function createCoinRow(ticker, purchasePrice, quantity) {
   var newRow = document.createElement('div');
-  newRow.setAttribute("id", symbol);
+  newRow.setAttribute("id", ticker);
 
   // TODO: write logic to check the previous coin's color (class var) & alternate colors
   // for now, we hardcode "coin coin1"
   newRow.setAttribute("class", "coin coin1");
 
   var newSymbol = document.createElement('h5');
-  newSymbol.setAttribute("id", symbol + "-symbol");
+  newSymbol.setAttribute("id", ticker + "-symbol");
   newSymbol.textContent = ticker;
 
   var newCurrentValue = document.createElement('h5');
-  newCurrentValue.setAttribute("id", symbol + "-current-value");
-  newCurrentValue.textContent = currentPrice * quantity;
+  newCurrentValue.setAttribute("id", ticker + "-current-value");
+  newCurrentValue.textContent = "$" + (currentPrice(ticker) * quantity).toFixed(2);
 
   var newQuantity = document.createElement('h5');
-  newQuantity.setAttribute("id", symbol + "-quantity");
+  newQuantity.setAttribute("id", ticker + "-quantity");
   newQuantity.textContent = quantity;
 
   // TODO: call api to calculate a value for this
   var newTodayGainLoss = document.createElement('h5');
-  newTodayGainLoss.setAttribute("id", symbol + "-today-gl");
+  newTodayGainLoss.setAttribute("id", ticker + "-today-gl");
   newTodayGainLoss.textContent = "TODO: Fix this";
 
   var newTotalGainLoss = document.createElement('h5');
-  newTotalGainLoss.setAttribute("id", symbol + "-total-gl");
-  newTotalGainLoss.textContent = (quantity * (currentPrice - purchasePrice)).toFixed(2)
+  newTotalGainLoss.setAttribute("id", ticker + "-total-gl");
+  newTotalGainLoss.textContent = "$" + (quantity * (currentPrice(ticker) - purchasePrice)).toFixed(2)
 
   newRow.append(newSymbol, newCurrentValue, newQuantity, newTodayGainLoss, newTotalGainLoss);
 
-  document.getElementById("portfolio-total").before(newRow);
+  document.getElementById("portfolio-total-row").before(newRow);
 }
 
 
 function updateCoinRow(ticker, costBasis, quantity) {
-  document.getElementById(ticker + "-current-value").textContent = currentPrice * quantity;
+  document.getElementById(ticker + "-current-value").textContent = "$" + (currentPrice(ticker) * quantity).toFixed(2);
   document.getElementById(ticker + "-quantity").textContent = quantity;
 
   // TODO: call api to calculate a value for this
-  document.getElementById(ticker + "-today-gl").textContent = "TODO: Fix this v2";
+  document.getElementById(ticker + "-today-gl").textContent = "TODO: Fix this";
 
-  document.getElementById(ticker + "-total-gl").textContent = (quantity * (currentPrice - costBasis)).toFixed(2);
+  document.getElementById(ticker + "-total-gl").textContent = "$" + (quantity * (currentPrice(ticker) - costBasis)).toFixed(2);
 }
 
 
@@ -65,7 +79,17 @@ function deleteRow(ticker) {
 
 // Updates the available cash display
 function updateCash(x) {
-  document.getElementById("cash").textContent = x;
+  document.getElementById("cash").textContent = "$" + x.toFixed(2);
+}
+
+
+// Updates the portfolio total value display
+function updatePortfolioTotal() {
+  var portfolioSum = 0;
+  for (const x in portfolioData) {
+    portfolioSum += currentPrice(x) * portfolioData[x].savedQuantity;
+  }
+  document.getElementById("portfolio-total").textContent = "$" + (availableCash + portfolioSum).toFixed(2);
 }
 
 
@@ -80,7 +104,7 @@ document.getElementById("buy").onclick = function () {
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
   // TODO: display some error
-  if (quantity * currentPrice > availableCash) {
+  if (quantity * currentPrice(symbol) > availableCash) {
     console.log("insufficient cash to purchase");
     return;
   }
@@ -93,33 +117,32 @@ document.getElementById("buy").onclick = function () {
 
   // TODO: If ticker exists in client side storage, then we update the row instead of making a new one
   // for now, we just check our variables
-  if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
+  if (symbol != null && portfolioData[symbol] != null) {
 
     // Calculate the new values to display
-    let newCostBasis = ((savedPurchasePrice * savedQuantity) + (currentPrice * quantity)) / (savedQuantity + quantity);
+    let newCostBasis = ((portfolioData[symbol]["savedPurchasePrice"] * portfolioData[symbol]["savedQuantity"]) + (currentPrice(symbol) * quantity)) / (portfolioData[symbol]["savedQuantity"] + quantity);
     newCostBasis = round(newCostBasis) // JS floats...
-    let newQuantity = savedQuantity + quantity;
+    let newQuantity = portfolioData[symbol]["savedQuantity"] + quantity;
     newQuantity = round(newQuantity);
 
     updateCoinRow(symbol, newCostBasis, newQuantity)
 
     // TODO: save data in client side storage
     // for now, we save to global variables
-    savedPurchasePrice = newCostBasis;
-    savedQuantity = newQuantity;
+    portfolioData[symbol]["savedPurchasePrice"] = round(newCostBasis);
+    portfolioData[symbol]["savedQuantity"] = newQuantity;
   }
   else {
-    createCoinRow(symbol, currentPrice, quantity);
+    createCoinRow(symbol, currentPrice(symbol), quantity);
 
     // TODO: save data in client side storage
     // for now, we save to global variables
-    savedPurchasePrice = round(currentPrice);
-    savedQuantity = round(quantity);
+    portfolioData[symbol] = { savedPurchasePrice: round(currentPrice(symbol)), savedQuantity: round(quantity) };
   }
 
-  availableCash = round(availableCash - (currentPrice * quantity));
+  availableCash = round(availableCash - (currentPrice(symbol) * quantity));
   updateCash(availableCash);
-
+  updatePortfolioTotal();
 };
 
 
@@ -127,12 +150,12 @@ document.getElementById("sell").onclick = function () {
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
   // TODO: If statement should check if ticker exists in client side storage
-  // for now, we just check our variables
-  if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
+  // for now, we just check our object
+  if (symbol != null && portfolioData[symbol]) {
 
     // We do not allow people to short
     // TODO: display some error
-    if (quantity > savedQuantity) {
+    if (quantity > portfolioData[symbol]["savedQuantity"]) {
       console.log("you can't sell more of this symbol than you own");
       return;
     }
@@ -143,30 +166,30 @@ document.getElementById("sell").onclick = function () {
       return;
     }
 
-    if (savedQuantity - quantity == 0) {
+    if (portfolioData[symbol]["savedQuantity"] - quantity == 0) {
       deleteRow(symbol)
 
       // TODO: save data in client side storage
-      // for now, we save to global variables
-      savedPurchasePrice = null;
-      savedQuantity = null;
-      availableCash = round(availableCash + (currentPrice * quantity));      
+      // for now, we save to a global object
+      delete portfolioData[symbol];
+      availableCash = round(availableCash + (currentPrice(symbol) * quantity));
     }
     else {
-      let newCostBasis = ((savedPurchasePrice * savedQuantity) - (currentPrice * quantity)) / (savedQuantity - quantity);
-      newCostBasis = round(newCostBasis); // JS floats...
-      let newQuantity = savedQuantity - quantity;
+      let newCostBasis = ((portfolioData[symbol]["savedPurchasePrice"] * portfolioData[symbol]["savedQuantity"]) - (currentPrice(symbol) * quantity)) / (portfolioData[symbol]["savedQuantity"] - quantity);
+      newCostBasis = round(newCostBasis);
+      let newQuantity = portfolioData[symbol]["savedQuantity"] - quantity;
       newQuantity = round(newQuantity);
 
       updateCoinRow(symbol, newCostBasis, newQuantity)
 
       // TODO: save data in client side storage
       // for now, we save to global variables
-      savedPurchasePrice = newCostBasis;
-      savedQuantity = newQuantity;
-      availableCash = round(availableCash + (currentPrice * quantity));
+      portfolioData[symbol]["savedPurchasePrice"] = newCostBasis;
+      portfolioData[symbol]["savedQuantity"] = newQuantity;
+      availableCash = round(availableCash + (currentPrice(symbol) * quantity));
     }
     updateCash(availableCash);
+    updatePortfolioTotal();
   }
   else {
     // TODO: display some error
@@ -175,10 +198,35 @@ document.getElementById("sell").onclick = function () {
 };
 
 
-// TODO: this if statement should check client side storage for saved data
+// Initialization parameters for select2
+$('#bar').select2({
+  dropdownParent: $('#search-sec'), // Fixes parent - copied from select2 documentation
+  data: coins // array of coins in supportedcoins.js
+});
+
+
+// Function triggered on selection
+$('#bar').on('select2:select', function (e) {
+  var data = e.params.data;
+  symbol = data.id;
+  newsApi(symbol);
+
+});
+
+
+// TODO: We need an if statement to check client side storage for saved data
 // if any exist, we generate html & display them
 // else, we should generate client side storage
-if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
-  createCoinRow(symbol, savedPurchasePrice, savedQuantity);
-  updateCash(availableCash);
+// for now, we just iterate through the portfolioData object
+for (const x in portfolioData) {
+  symbol = x;
+  createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);
 }
+updateCash(availableCash);
+updatePortfolioTotal();
+
+// Set default symbol to btc
+symbol = "btc";
+newsApi(symbol);
+
+

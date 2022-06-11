@@ -1,15 +1,17 @@
 // This is the current working symbol
 var symbol = "btc";
 
-// Returns the current price of a coin - currently using hardcoded data
+// TODO: delete when current price gets real data
+function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
+// Returns the current price of a coin - currently using randomised data
 // TODO: this function needs to call our API and return a current price for a given coin
 function currentPrice(ticker) {
   switch (ticker) {
-    case "btc": return 20000;
-    case "eth": return 2000;
-    case "xrp": return 0.3;
-    case "doge": return 0.1;
-    case "dai": return 1;
+    case "btc": return rand(15000, 25000);
+    case "eth": return rand(1500, 2500);
+    case "xrp": return rand(0.1, 0.8);
+    case "doge": return rand(0.01, 0.2);
+    case "dai": return rand(1, 5);
     default: return 999999;
   }
 }
@@ -92,6 +94,35 @@ function updatePortfolioTotal() {
   document.getElementById("portfolio-total").textContent = "$" + (availableCash + portfolioSum).toFixed(2);
 }
 
+function updatePrice() {
+  document.getElementById("price").textContent = "$" + currentPrice(symbol).toFixed(2);
+  console.log("$" + currentPrice(symbol).toFixed(2));
+}
+
+/* Yes, I know this is terrible code and this is the poster child for hashmaps.
+Unfortunately, select2 requires an array or json input
+and it's not worth creating a hashmap of the same data for this purpose only.
+Either way, our dataset is small enough to not really care about performance */
+function symbolToName() {
+  for (let i = 0; i < coins.length; i++) {
+    if (coins[i].id == symbol) { return coins[i].text }
+  }
+  return "error, can't lookup symbol"
+}
+
+function updateSymbol() {
+  document.getElementById("symbol").textContent = symbolToName(symbol);
+  console.log(symbolToName(symbol));
+}
+
+function updateWholePage() {
+  for (const x in portfolioData) {
+    updateCoinRow(x, portfolioData[x]["savedPurchasePrice"], portfolioData[x]["savedQuantity"]);
+  }
+  updatePortfolioTotal();
+  updatePrice();
+  updateSymbol();
+}
 
 // Rounds to 6 decimal places. Solves numerical drift from JS floats
 // & allows us to only store a calculated cost basis + qty, instead of storing an array of transactions
@@ -210,7 +241,7 @@ $('#bar').on('select2:select', function (e) {
   var data = e.params.data;
   symbol = data.id;
   newsApi(symbol);
-
+  updateWholePage();
 });
 
 
@@ -228,5 +259,7 @@ updatePortfolioTotal();
 // Set default symbol to btc
 symbol = "btc";
 newsApi(symbol);
+updatePrice();
+updateSymbol();
 
 

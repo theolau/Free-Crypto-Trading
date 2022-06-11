@@ -3,18 +3,17 @@ var symbol = "btc";
 
 // TODO: delete when current price gets real data
 function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
-// Returns the current price of a coin - currently using randomised data
+
+// Returns the current price of a coin - currently using randomised data cached for 15 seconds
 // TODO: this function needs to call our API and return a current price for a given coin
 // this function should probably cache a price for a short period as well, because we call it a lot
+var lastPrice = {};
+for (let i = 0; i < coins.length; i++) { // temp - randomizes prices at start
+  lastPrice[coins[i].id] = rand(0.01, 25000);
+}
 function currentPrice(ticker) {
-  switch (ticker) {
-    case "btc": return rand(15000, 25000);
-    case "eth": return rand(1500, 2500);
-    case "xrp": return rand(0.1, 0.8);
-    case "doge": return rand(0.01, 0.2);
-    case "dai": return rand(1, 5);
-    default: return 999999;
-  }
+  if (lastPrice[ticker]) { return lastPrice[ticker]; }
+  else { return 999999; }
 }
 
 // TODO: read these values from client side storage
@@ -106,7 +105,7 @@ and it's not worth creating a hashmap of the same data for this purpose only.
 Either way, our dataset is small enough to not really care about performance */
 function symbolToName() {
   for (let i = 0; i < coins.length; i++) {
-    if (coins[i].id == symbol) { return coins[i].text }
+    if (coins[i].id == symbol) { return coins[i].text; }
   }
   return "error, can't lookup symbol"
 }
@@ -125,12 +124,30 @@ function updateWholePage() {
   updateSymbol();
 }
 
+function pageRefresh() {
+  for (let i = 0; i < coins.length; i++) { // for testing purposes, this randomizes the prices
+    lastPrice[coins[i].id] = rand(0.01, 25000);
+  }
+  updateWholePage();
+}
+
+// Randomizes prices & refreshes the page every 15 seconds
+setInterval(pageRefresh, 15000);
+
+
 // Rounds to 6 decimal places. Solves numerical drift from JS floats
 // & allows us to only store a calculated cost basis + qty, instead of storing an array of transactions
 function round(x) {
   return Math.round(x * 1000000) / 1000000;
 }
 
+
+//document.getElementById("amount").addEventListener('change', updateValue);
+
+$('#amount').on('keyup change textInput input', function () {
+  if (this.value == 0) { return; }
+  else { document.getElementById("total-price").textContent = "$" + (parseFloat(this.value, 10) * currentPrice(symbol)).toFixed(2); }
+});
 
 document.getElementById("buy").onclick = function () {
   const quantity = parseFloat(document.getElementById("amount").value, 10);
@@ -249,7 +266,7 @@ $('#bar').on('select2:select', function (e) {
 
 
 // TODO: We need an if statement to check client side storage for saved data
-// if any exist, we generate html & display them
+// if any exist, we should load to memory (portfolioData) and generate html
 // else, we should generate client side storage
 // for now, we just iterate through the portfolioData object
 for (const x in portfolioData) {
@@ -264,5 +281,3 @@ symbol = "btc";
 newsApi(symbol);
 updatePrice();
 updateSymbol();
-
-

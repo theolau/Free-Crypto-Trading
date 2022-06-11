@@ -5,6 +5,7 @@ var symbol = "btc";
 function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
 // Returns the current price of a coin - currently using randomised data
 // TODO: this function needs to call our API and return a current price for a given coin
+// this function should probably cache a price for a short period as well, because we call it a lot
 function currentPrice(ticker) {
   switch (ticker) {
     case "btc": return rand(15000, 25000);
@@ -174,6 +175,7 @@ document.getElementById("buy").onclick = function () {
   availableCash = round(availableCash - (currentPrice(symbol) * quantity));
   updateCash(availableCash);
   updatePortfolioTotal();
+  updatePrice();
 };
 
 
@@ -221,6 +223,7 @@ document.getElementById("sell").onclick = function () {
     }
     updateCash(availableCash);
     updatePortfolioTotal();
+    updatePrice();
   }
   else {
     // TODO: display some error

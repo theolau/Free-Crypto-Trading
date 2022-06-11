@@ -70,19 +70,18 @@ function newsApi(ticker)
             // Append a link to the full article
             newsContainer.insertAdjacentHTML('beforeend', "<a style=\"padding: 2% 9%;\" href=\"" + data.results[i].link + "\">Learn more</a>"); 
         }
-     // change the coin1 and 2 to be what the coin name is
-     const rememberDivcoin1value = document.querySelector('.remember');
-     const rememberDivcoin2value = document.querySelector('.remember');
-     const rememberDivcoinvalue = document.querySelector('.remember');
-     const rememberDivcoin1Q = document.querySelector('.remember');
-     const rememberDivcoin2Q = document.querySelector('.remember');
-     const rememberDivcoinQ = document.querySelector('.remember');
-     const rememberDivcoin1GainLoss = document.querySelector('.remember');
-     const rememberDivcoin2gainloss = document.querySelector('.remember');
-     const rememberDivcoingainloss = document.querySelector('.remember');
-     const forgetDiv = document.querySelector('.forget');
-     localStorage.getItem("growth total")
-
+       // change the coin1 and 2 to be what the coin name is
+       const rememberDivcoin1value = document.querySelector('.remember');
+       const rememberDivcoin2value = document.querySelector('.remember');
+       const rememberDivcoinvalue = document.querySelector('.remember');
+       const rememberDivcoin1Q = document.querySelector('.remember');
+       const rememberDivcoin2Q = document.querySelector('.remember');
+       const rememberDivcoinQ = document.querySelector('.remember');
+       const rememberDivcoin1GainLoss = document.querySelector('.remember');
+       const rememberDivcoin2gainloss = document.querySelector('.remember');
+       const rememberDivcoingainloss = document.querySelector('.remember');
+       const forgetDiv = document.querySelector('.forget');
+       localStorage.getItem("growth total")
 
       })
       .catch(function (error) {

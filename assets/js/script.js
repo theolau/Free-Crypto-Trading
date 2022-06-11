@@ -57,6 +57,25 @@ function updateCoinRow(ticker, costBasis, quantity) {
 }
 
 
+// Deletes a row 
+function deleteRow(ticker) {
+  document.getElementById(ticker).remove();
+}
+
+
+// Updates the available cash display
+function updateCash(x) {
+  document.getElementById("cash").textContent = x;
+}
+
+
+// Rounds to 6 decimal places. Solves numerical drift from JS floats
+// & allows us to only store a calculated cost basis + qty, instead of storing an array of transactions
+function round(x) {
+  return Math.round(x * 1000000) / 1000000;
+}
+
+
 document.getElementById("buy").onclick = function () {
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
@@ -78,9 +97,9 @@ document.getElementById("buy").onclick = function () {
 
     // Calculate the new values to display
     let newCostBasis = ((savedPurchasePrice * savedQuantity) + (currentPrice * quantity)) / (savedQuantity + quantity);
-    newCostBasis = Math.round(newCostBasis * 1000000) / 1000000; // JS floats...
+    newCostBasis = round(newCostBasis) // JS floats...
     let newQuantity = savedQuantity + quantity;
-    newQuantity = Math.round(newQuantity * 1000000) / 1000000;
+    newQuantity = round(newQuantity);
 
     updateCoinRow(symbol, newCostBasis, newQuantity)
 
@@ -94,12 +113,12 @@ document.getElementById("buy").onclick = function () {
 
     // TODO: save data in client side storage
     // for now, we save to global variables
-    savedPurchasePrice = Math.round(currentPrice * 1000000) / 1000000;
-    savedQuantity = Math.round(quantity * 1000000) / 1000000;
+    savedPurchasePrice = round(currentPrice);
+    savedQuantity = round(quantity);
   }
 
-  availableCash = Math.round((availableCash - (currentPrice * quantity)) * 1000000) / 1000000;
-  console.log(availableCash + " dollars available now")
+  availableCash = round(availableCash - (currentPrice * quantity));
+  updateCash(availableCash);
 
 };
 
@@ -125,13 +144,19 @@ document.getElementById("sell").onclick = function () {
     }
 
     if (savedQuantity - quantity == 0) {
-      // TODO: Delete row
+      deleteRow(symbol)
+
+      // TODO: save data in client side storage
+      // for now, we save to global variables
+      savedPurchasePrice = null;
+      savedQuantity = null;
+      availableCash = round(availableCash + (currentPrice * quantity));      
     }
     else {
       let newCostBasis = ((savedPurchasePrice * savedQuantity) - (currentPrice * quantity)) / (savedQuantity - quantity);
-      newCostBasis = Math.round(newCostBasis * 1000000) / 1000000; // JS floats...
+      newCostBasis = round(newCostBasis); // JS floats...
       let newQuantity = savedQuantity - quantity;
-      newQuantity = Math.round(newQuantity * 1000000) / 1000000;
+      newQuantity = round(newQuantity);
 
       updateCoinRow(symbol, newCostBasis, newQuantity)
 
@@ -139,9 +164,9 @@ document.getElementById("sell").onclick = function () {
       // for now, we save to global variables
       savedPurchasePrice = newCostBasis;
       savedQuantity = newQuantity;
-      availableCash = Math.round((availableCash + (currentPrice * quantity)) * 1000000) / 1000000;
-      console.log(availableCash + " dollars available now")
+      availableCash = round(availableCash + (currentPrice * quantity));
     }
+    updateCash(availableCash);
   }
   else {
     // TODO: display some error
@@ -150,8 +175,10 @@ document.getElementById("sell").onclick = function () {
 };
 
 
-// TODO: this if statement should check client side storage for saved purchases
+// TODO: this if statement should check client side storage for saved data
 // if any exist, we generate html & display them
+// else, we should generate client side storage
 if (symbol != null && savedPurchasePrice != null && savedQuantity != null) {
   createCoinRow(symbol, savedPurchasePrice, savedQuantity);
+  updateCash(availableCash);
 }

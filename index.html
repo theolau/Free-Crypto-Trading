@@ -1,60 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bitcoin Dashboard</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bitcoin Dashboard</title>
+  <link href="./assets/css/style.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="./assets/js/supportedcoins.js"></script>
 </head>
+
 <body>
-    <!-- navbar section -->
-<nav class="navbar">
+  <!-- navbar section -->
+  <nav class="navbar">
     <div class="logo">
       Cryptocurrency
     </div>
-    
-    <div class="search-section">
+
+    <div id="search-sec" class="search-section">
+      <select id="bar" class="search-bar" name="Crypto Coin"></select>
+    </div>
+
+    <!-- Replaced with select2
+
+      <div class="search-section">
       <form action="http://www.google.com/search" method="get" class="search-bar">
         <input type="text" placeholder="Search crypto" name="q">
         <button type="submit"><img src="search-26241.png"></button>
       </form>
     </div>
+    -->
+
     <div class="img">
       <img src="avatar-img.png" alt="Avatar" class="avatar">
     </div>
   </nav>
-  
-<!-- body section -->
+
+  <!-- body section -->
 
   <div class="mainSection">
     <div class="news-section">
-        <h1>Recent News</h1>
-          <div class="news-item">
-          <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
-          <div class="news-body">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam tempore, praesentium numquam beatae dolore.
-          </div>
-          <a style="padding: 2% 9%;" href="$">Learn more</a>
+      <h1>Recent News</h1>
+      <div class="news-item" id="news">
+
+        <!-- We dynamically generate this section in script.js now
+
+        <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
+        <div class="news-body">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere
+          ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum
+          hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam
+          tempore, praesentium numquam beatae dolore.
         </div>
+        <a style="padding: 2% 9%;" href="$">Learn more</a>
+        -->
+
+      </div>
     </div>
 
     <div class="graph-section">
-      <h1>Bitcoin</h1>
+      <h1 id="symbol">Some Coin</h1>
       <div class="chart">
-        <div class="current-price"><a id="price">100.00</a> USD</div>
+        <div class="current-price"><a id="price">$x</a> USD</div>
         <div id="price-chart">Chart insert here</div>
         <div class="action">
-            <label for="amount">Amount</label>
-            <input type="number" id="amount" name = "amount">
-          <button>Buy</button>
-          <button>Sell</button>
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" name="amount">
+          <label for="total-price">Total Price:</label>
+          <h5 id="total-price">$0.00</h5>
+          <button id="buy">Buy</button>
+          <button id="sell">Sell</button>
         </div>
       </div>
-      
+
     </div>
   </div>
-  <div class="portfolio-section">
+  <div class="portfolio-section" id="portfolio">
     <h1>My Portfolio</h1>
     <table>
       <thead id="table-head">
@@ -103,7 +127,8 @@
     <button id="clear-memory">Clear All Memory</button>
   </div>
   <script src="./assets/js/config.js"></script>
-  <script src="./assets/js/script.js"></script>
   <script src="./assets/js/news.js"></script>
+  <script src="./assets/js/script.js"></script>
 </body>
+
 </html>

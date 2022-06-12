@@ -1,0 +1,25 @@
+import requests
+import json
+
+url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest'
+
+
+def getcoininfo(symbol):
+	
+	parameters = {
+		'symbol':symbol
+	}
+	
+	headers = {
+	  'Accepts': 'application/json',
+	  'X-CMC_PRO_API_KEY': 'b5a3e928-5476-4361-b591-cc89ff9a089c',
+	}
+
+	json = requests.get(url, params=parameters, headers=headers).json()
+
+	coin = json['data'][symbol][0]
+
+	
+	print(coin['symbol'], coin['name'], coin['quote']['USD']['price'])
+	
+getcoininfo('BTC')

@@ -33,19 +33,19 @@ h1{
     justify-content: flex-end;
 }
 
-.search-bar {
-    width: 100%;
-    max-width: 350px;
-    height: 100%;
-    max-height: 120px;
-    background-color: #f1f1f1c5;
-    display: flex;
+.select2{
     align-self: center;
-    border-radius: 30px;
-    padding: 5px 10px;
 }
 
-.search-bar input{
+/* .search-bar {
+    width:50%;
+    align-self: center;
+    justify-self: center;
+    border-radius: 30px;
+    padding: 5px 10px;
+} */
+
+/* .search-bar input{
     background-color: rgba(250, 244, 244, 0.726);
     flex: 1;
     border: 0;
@@ -53,11 +53,11 @@ h1{
     padding: 12px 10px;
     font-size: 10px;
     color: #000000;
-}
+} */
 
-::placeholder{
+/* ::placeholder{
     color: rgb(117, 109, 109)
-}
+} */
 
 .search-bar button img{
     width: 12px;
@@ -87,6 +87,7 @@ h1{
 
 
 /* body section */
+
 .mainSection {
     display: flex;
     flex-wrap: nowrap;
@@ -95,58 +96,79 @@ h1{
     padding: 0;
 }
 
+.action-section {
 
-/* News Section */
-.news-section {
-    /* border: 1px solid black; */
-    border-radius: 1%;
-    height: 500px;
-    width: 45%;
+    height: 40vh;
+    width: 30%;
     margin: 2% 0%;
     padding: 1%;
     display: flex;
     flex-direction: column;
 }
 
-.news-item{
-    background-color: rgb(240, 249, 255);
+.input{
+    width: 100%;
     height: 100%;
+    background-color: rgb(240, 249, 255);
     border-radius: 1%;
-    padding: 1%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    overflow-y: auto;
-    
+    justify-content: space-around;
+    align-items: space-around;
 }
 
-
-.news-tittle{
-    font-style: none;
-    text-decoration: none;
-    color: #000000;
-    font-size: x-large;
-    font-weight: bold;
-    margin: 3%;
-    position: relative;
-    bottom: -10px;
-    overflow-wrap: break-word;
-    padding:0 6%;
+.input1{
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+    padding: 015%;
 }
 
-.news-body{
-    padding:0 6%;
-    margin: 3%;
-    line-height: 160%; 
+.input1 label{
+    padding: 7% 0;
 }
+
+#total-price{
+    width: 100%;
+    border: 1px solid #00000057;
+    border-radius: 5%;
+    background-color: white;
+    height: 20px;
+}
+
+.input-btn{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-btn button{
+    padding: 1% 8%;
+    width: 75%;
+    background-color: rgb(50, 146, 255);
+    border-radius: 0%;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    color: aliceblue;
+    height: 24px;
+    max-width: 400px;
+    max-height: 60px;
+    box-sizing: border-box;
+    font-stretch: expanded;
+    margin: 3% auto;
+}
+
+.input-btn button:hover{
+    background-color: rgb(106, 200, 255);
+}
+
 
 /* graphic section */
 
 .graph-section{
     /* border: 1px solid black; */
-    border-radius: 1%;
-    height: 500px;
-    width: 100%;
+    height: 40vh;
+    width: 70%;
     max-height: 500px;
     max-width: 100%;
     margin: 2% 0%;
@@ -173,47 +195,58 @@ h1{
 
 #price-chart{
     /* border: 1px solid black; */
-    height: 70%;
+    height: 68%;
     width: 90%;
     margin: auto;
 }
 
 .action{
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: row;
     margin: auto auto;
-    align-content: center;
-}
 
-.action label{
-    align-self: center;
-}
-
-#amount{
-    max-width: 20%;
-    border-color: rgb(214,214,214);
-    border-style: groove;
-}
+} 
 
 
-.action button{
-    padding: 1% 8%;
-    background-color: rgb(50, 146, 255);
-    border-radius: 0%;
-    border: none;
-    width: 25%;
-    text-align: center;
-    font-size: 14px;
-    color: aliceblue;
-    max-width: 400px;
-    max-height: 50px;
-    box-sizing: border-box;
-    font-stretch: expanded;
+
+/* News Section */
+.news-section {
+    border-radius: 1%;
+    height: 300px;
+    margin: 0% 0%;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
 }
 
-.action button:hover{
-    background-color: rgb(106, 200, 255);
+.news-item{
+    background-color: rgb(240, 249, 255);
+    height: 100%;
+    border-radius: 1%;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+    
 }
+
+/* removing css for none existing section*/
+/* .news-tittle{
+    font-style: none;
+    text-decoration: none;
+    color: #000000;
+    font-size: x-large;
+    font-weight: bold;
+    margin: 3%;
+    position: relative;
+    bottom: -10px;
+    overflow-wrap: break-word;
+    padding:0 6%;
+} */
+
+
+
 
 /* Portfolio section */
 .portfolio-section{
@@ -323,7 +356,7 @@ td:last-child {
 @media screen and (max-width: 600px) {
 
     body{
-        margin: 3%;
+        margin: 2%;
     }
 
     h1{
@@ -337,6 +370,11 @@ td:last-child {
 
     .navbar{
         justify-content: space-between;
+        flex-direction: column;
+    }
+
+    #search-sec{
+        justify-content: flex-start;
     }
 
     .logo{
@@ -347,26 +385,25 @@ td:last-child {
         display: none;
     }
 
-    .search-bar{
-        width: 40px;
-        height: 30px;
-        padding: 1px;
-
-    }
-
-    .search-bar button img{
-        width: 10px;
-    }
-
-    .search-bar button{
-        width: 30px;
-        height: 30px;
-    }
-
     .avatar{
         width: 32px;
         height: 32px;
         align-self: center;
+        display: none;
+    }
+
+    .action-section{
+        width: 100%;
+        height: 100%;
+    }
+
+    .input1{
+        margin: auto;
+        padding: 3%;
+    }
+    
+    .input1 label{
+        padding: 5% 0;
     }
 
     .news-section{
@@ -386,6 +423,13 @@ td:last-child {
     .portfolio-section{
         font-size: 80%;
         padding-bottom: 30px;
+        overflow:hidden;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    #clear-memory{
+        left: 40%;
     }
 }
 
@@ -393,7 +437,31 @@ td:last-child {
 @media screen and (max-width: 1000px) {
 
     body{
-        margin: 0 5%;
+        margin: 0 4%;
+    }
+
+    .navbar{
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    #search-sec{
+        justify-content: flex-start;
+    }
+
+    .logo{
+        font-size: 35px;
+    }
+    
+    .search-bar input{
+        display: none;
+    }
+
+    .avatar{
+        width: 32px;
+        height: 32px;
+        align-self: center;
+        display: none;
     }
 
     .news-item{

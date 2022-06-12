@@ -56,41 +56,51 @@
   </div>
   <div class="portfolio-section">
     <h1>My Portfolio</h1>
-    <div class="coinList"></div>
-        <div class="coin">
-          <h5>Symbol</h5>
-          <h5>Current value</h5>
-          <h5>Quantity</h5>
-          <h5>Today's Gain/loss</h5>
-          <h5>Total Gain/loss</h5>
-        </div>
-        <div class="coin coin1">
-          <a href="$">coin1</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin">
-          <a href="$">coin2</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin coin1">
-          <a href="$">coin3</a>
-          <div>Value</div>
-          <div>1</div>
-          <div>Growth today</div>
-          <div>growth total</div>
-        </div>
-        <div class="coin">
-          <div><b>Account Total</b></div>
-          <div>growth total</div>
-      </div>
-      </div>
+    <table>
+      <thead id="table-head">
+        <tr>
+          <th>Symbol</th>
+          <th>Current value</th>
+          <th>Quantity</th>
+          <th>Today's Gain/loss</th>
+          <th>Total Gain/loss</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="currency-name">bitcoin</td>
+          <td id="price">$1</td>
+          <td id="quantity">1</td>
+          <td id="gain-today">1%</td>
+          <td id="gain-total">1%</td>
+        </tr>
+        <tr>
+          <td>bitcoin</td>
+          <td>$1</td>
+          <td>1</td>
+          <td>1%</td>
+          <td>1%</td>
+        </tr>
+        <tr>
+          <td>bitcoin</td>
+          <td>$1</td>
+          <td>1</td>
+          <td>1%</td>
+          <td>1%</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr id="table-foot">
+          <td><b>Account Total</b></td>
+          <td></td>
+          <td></td>
+          <td id="total-value">value</td>
+          <td id="growth-gain">growth Total</td>
+        </tr>
+      </tfoot>
+    </table>
     </div>
+    <button id="clear-memory">Clear All Memory</button>
   </div>
   <script src="./assets/js/config.js"></script>
   <script src="./assets/js/script.js"></script>

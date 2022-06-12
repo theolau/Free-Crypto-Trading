@@ -22,8 +22,6 @@ var portfolioData = {
   btc: { savedPurchasePrice: 10000, savedQuantity: 5 },
   eth: { savedPurchasePrice: 1500, savedQuantity: 12 }
 };
-let savedPurchasePrice = 10000;
-let savedQuantity = 5;
 let availableCash = 100000;
 
 
@@ -164,9 +162,7 @@ document.getElementById("buy").onclick = function () {
     return;
   }
 
-  // TODO: If ticker exists in client side storage, then we update the row instead of making a new one
-  // for now, we just check our variables
-  if (symbol != null && portfolioData[symbol] != null) {
+  if (portfolioData[symbol] != null) {
 
     // Calculate the new values to display
     let newCostBasis = ((portfolioData[symbol]["savedPurchasePrice"] * portfolioData[symbol]["savedQuantity"]) + (currentPrice(symbol) * quantity)) / (portfolioData[symbol]["savedQuantity"] + quantity);
@@ -175,17 +171,11 @@ document.getElementById("buy").onclick = function () {
     newQuantity = round(newQuantity);
 
     updateCoinRow(symbol, newCostBasis, newQuantity)
-
-    // TODO: save data in client side storage
-    // for now, we save to global variables
     portfolioData[symbol]["savedPurchasePrice"] = round(newCostBasis);
     portfolioData[symbol]["savedQuantity"] = newQuantity;
   }
   else {
     createCoinRow(symbol, currentPrice(symbol), quantity);
-
-    // TODO: save data in client side storage
-    // for now, we save to global variables
     portfolioData[symbol] = { savedPurchasePrice: round(currentPrice(symbol)), savedQuantity: round(quantity) };
   }
 
@@ -193,14 +183,13 @@ document.getElementById("buy").onclick = function () {
   updateCash(availableCash);
   updatePortfolioTotal();
   updatePrice();
+  saveToPersistent();
 };
 
 
 document.getElementById("sell").onclick = function () {
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
-  // TODO: If statement should check if ticker exists in client side storage
-  // for now, we just check our object
   if (symbol != null && portfolioData[symbol]) {
 
     // We do not allow people to short
@@ -218,11 +207,9 @@ document.getElementById("sell").onclick = function () {
 
     if (portfolioData[symbol]["savedQuantity"] - quantity == 0) {
       deleteRow(symbol)
-
-      // TODO: save data in client side storage
-      // for now, we save to a global object
       delete portfolioData[symbol];
       availableCash = round(availableCash + (currentPrice(symbol) * quantity));
+
     }
     else {
       let newCostBasis = ((portfolioData[symbol]["savedPurchasePrice"] * portfolioData[symbol]["savedQuantity"]) - (currentPrice(symbol) * quantity)) / (portfolioData[symbol]["savedQuantity"] - quantity);
@@ -232,8 +219,6 @@ document.getElementById("sell").onclick = function () {
 
       updateCoinRow(symbol, newCostBasis, newQuantity)
 
-      // TODO: save data in client side storage
-      // for now, we save to global variables
       portfolioData[symbol]["savedPurchasePrice"] = newCostBasis;
       portfolioData[symbol]["savedQuantity"] = newQuantity;
       availableCash = round(availableCash + (currentPrice(symbol) * quantity));
@@ -241,6 +226,7 @@ document.getElementById("sell").onclick = function () {
     updateCash(availableCash);
     updatePortfolioTotal();
     updatePrice();
+    saveToPersistent();
   }
   else {
     // TODO: display some error
@@ -265,10 +251,8 @@ $('#bar').on('select2:select', function (e) {
 });
 
 
-// TODO: We need an if statement to check client side storage for saved data
-// if any exist, we should load to memory (portfolioData) and generate html
-// else, we should generate client side storage
-// for now, we just iterate through the portfolioData object
+// If we have saved data, then we initialize it & write to memory
+initializeFromPersistent();
 for (const x in portfolioData) {
   symbol = x;
   createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);

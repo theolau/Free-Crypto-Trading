@@ -190,7 +190,7 @@ h1{
 }
 
 #amount{
-    width: 20%;
+    max-width: 20%;
     border-color: rgb(214,214,214);
     border-style: groove;
 }
@@ -265,6 +265,36 @@ h1{
     background-color: inherit;
 }
 
+th,
+td {
+  padding: 30px 15px;
+  text-align: center;
+  border-bottom: 1px solid #E1E1E1; }
+th:first-child,
+td:first-child {
+    text-align: left;
+  padding-left: 3%; 
+  padding-right: 100px;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0px; 
+}
+
+#table-head{
+    background-color: rgb(240, 249, 255);
+}
+
+#clear-memory{
+    margin-top: 50px;
+    position: relative;
+    left: 49%;
+    border: none;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    background-color: inherit;
+}
 
 .btn {
     display: block;

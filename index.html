@@ -42,23 +42,21 @@
   <!-- body section -->
 
   <div class="mainSection">
-    <div class="news-section">
-      <h1>Recent News</h1>
-      <div class="news-item" id="news">
+    <div class="action-section">
+        <h1 id="symbol">Trade</h1>
+        <div class="input">
+            <div class="input1">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" placeholder="Trade quantity">
+                <label for="total-price">Total Price:</label>
+                <div id="total-price">$0.00</div>
+            </div>
 
-        <!-- We dynamically generate this section in script.js now
-
-        <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
-        <div class="news-body">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere
-          ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum
-          hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam
-          tempore, praesentium numquam beatae dolore.
+            <div class="input-btn">
+                <button id="buy">Buy</button>
+                <button id="sell">Sell</button>
+            </div>
         </div>
-        <a style="padding: 2% 9%;" href="$">Learn more</a>
-        -->
-
-      </div>
     </div>
 
     <div class="graph-section">
@@ -75,9 +73,28 @@
           <button id="sell">Sell</button>
         </div>
       </div>
+    </div>
+  </div>
+  
+  <div class="news-section">
+    <h1>Recent News</h1>
+    <div class="news-item" id="news">
+
+      <!-- We dynamically generate this section in script.js now
+
+      <a class="news-tittle" href="$">news tittle, news tittle is news tittle is news tittle</a>
+      <div class="news-body">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis minus est quos alias nemo ad dicta facere
+        ducimus provident, magnam facilis nostrum enim, nihil fugiat et. Excepturi nesciunt earum corrupti voluptatum
+        hic quisquam quis aspernatur quae repellat adipisci omnis magni delectus repudiandae maiores a, laboriosam
+        tempore, praesentium numquam beatae dolore.
+      </div>
+      <a style="padding: 2% 9%;" href="$">Learn more</a>
+      -->
 
     </div>
   </div>
+  
   <div class="portfolio-section" id="portfolio">
     <h1>My Portfolio</h1>
     <table>

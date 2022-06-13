@@ -38,12 +38,12 @@ h1{
 }*/
 
 .search-bar {
-    width:25%;
+    width:75%;
     align-self: center;
     justify-self: center;
     border-radius: 30px;
     padding: 5px 10px;
-} */
+}
 
 /* .search-bar input{
     background-color: rgba(250, 244, 244, 0.726);
@@ -59,18 +59,6 @@ h1{
     color: rgb(117, 109, 109)
 } */
 
-.search-bar button img{
-    width: 12px;
-}
-
-.search-bar button{
-    border: 0;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    align-self: center;
-}
 
 
 /* avatarimg css */
@@ -231,22 +219,6 @@ h1{
     
 }
 
-/* removing css for none existing section*/
-/* .news-tittle{
-    font-style: none;
-    text-decoration: none;
-    color: #000000;
-    font-size: x-large;
-    font-weight: bold;
-    margin: 3%;
-    position: relative;
-    bottom: -10px;
-    overflow-wrap: break-word;
-    padding:0 6%;
-} */
-
-
-
 
 /* Portfolio section */
 .portfolio-section{
@@ -297,6 +269,8 @@ h1{
 .coin1{
     background-color: inherit;
 }
+
+/* following are cut from skeleton framework table section with minor edit */
 
 th,
 td {

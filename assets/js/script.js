@@ -1,5 +1,9 @@
 // This is the current working symbol
-var symbol = "btc";
+var symbol;
+
+// We can set the default portfolio here
+var portfolioData = {};
+let availableCash = 250000;
 
 // TODO: delete when current price gets real data
 function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
@@ -15,14 +19,6 @@ function currentPrice(ticker) {
   if (lastPrice[ticker]) { return lastPrice[ticker]; }
   else { return 999999; }
 }
-
-// TODO: read these values from client side storage
-// hardcoded for now
-var portfolioData = {
-  btc: { savedPurchasePrice: 10000, savedQuantity: 5 },
-  eth: { savedPurchasePrice: 1500, savedQuantity: 12 }
-};
-let availableCash = 100000;
 
 
 function createCoinRow(ticker, purchasePrice, quantity) {
@@ -200,7 +196,7 @@ document.getElementById("sell").onclick = function () {
     }
 
     // TODO: display some error
-    if (quantity <= 0) {
+    if (!quantity) {
       console.log("you're not allowed to buy/sell zero or negatives")
       return;
     }
@@ -233,6 +229,18 @@ document.getElementById("sell").onclick = function () {
     console.log("you don't own this coin")
   }
 };
+
+
+ document.getElementById("clear-memory").onclick = function () {
+  localStorage.clear();
+  for (const x in portfolioData) { deleteRow(x); }
+  portfolioData = {};
+  availableCash = 250000;
+  symbol = "btc";
+  newsApi(symbol);
+  updatePrice();
+  updateSymbol();
+ };
 
 
 // Initialization parameters for select2

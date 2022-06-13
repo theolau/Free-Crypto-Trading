@@ -28,7 +28,7 @@ function newsApi(ticker) {
       newsContainer.innerHTML = '';
 
       for (let i = 0; i < Math.min(data.results.length, 5); i++) {
-        var articleTitle = document.createElement('a');
+        var articleTitle = document.createElement('h4');
         articleTitle.setAttribute("class", "news-tittle");
         //var articleAuthor = document.createElement('h4');
         var articleBody = document.createElement('div');
@@ -63,7 +63,7 @@ function newsApi(ticker) {
         newsContainer.append(articleBody);
 
         // Append a link to the full article
-        newsContainer.insertAdjacentHTML('beforeend', "<a style=\"padding: 2% 9%;\" href=\"" + data.results[i].link + "\">Learn more</a>");
+        newsContainer.insertAdjacentHTML('beforeend', "<a style=\"padding: 1% 0%;\" href=\"" + data.results[i].link + "\">Learn more</a>");
       }
     })
     .catch(function (error) {

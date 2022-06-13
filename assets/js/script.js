@@ -26,37 +26,37 @@ let availableCash = 100000;
 
 
 function createCoinRow(ticker, purchasePrice, quantity) {
-  var newRow = document.createElement('div');
+  var newRow = document.createElement('tr');
   newRow.setAttribute("id", ticker);
 
   // TODO: write logic to check the previous coin's color (class var) & alternate colors
   // for now, we hardcode "coin coin1"
-  newRow.setAttribute("class", "coin coin1");
+  // newRow.setAttribute("class", "coin coin1");
 
-  var newSymbol = document.createElement('h5');
+  var newSymbol = document.createElement('td');
   newSymbol.setAttribute("id", ticker + "-symbol");
   newSymbol.textContent = ticker;
 
-  var newCurrentValue = document.createElement('h5');
+  var newCurrentValue = document.createElement('td');
   newCurrentValue.setAttribute("id", ticker + "-current-value");
   newCurrentValue.textContent = "$" + (currentPrice(ticker) * quantity).toFixed(2);
 
-  var newQuantity = document.createElement('h5');
+  var newQuantity = document.createElement('td');
   newQuantity.setAttribute("id", ticker + "-quantity");
   newQuantity.textContent = quantity;
 
   // TODO: call api to calculate a value for this
-  var newTodayGainLoss = document.createElement('h5');
+  var newTodayGainLoss = document.createElement('td');
   newTodayGainLoss.setAttribute("id", ticker + "-today-gl");
   newTodayGainLoss.textContent = "TODO: Fix this";
 
-  var newTotalGainLoss = document.createElement('h5');
+  var newTotalGainLoss = document.createElement('td');
   newTotalGainLoss.setAttribute("id", ticker + "-total-gl");
   newTotalGainLoss.textContent = "$" + (quantity * (currentPrice(ticker) - purchasePrice)).toFixed(2)
 
   newRow.append(newSymbol, newCurrentValue, newQuantity, newTodayGainLoss, newTotalGainLoss);
 
-  document.getElementById("portfolio-total-row").before(newRow);
+  document.getElementById("portfolio-table").append(newRow);
 }
 
 

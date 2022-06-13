@@ -37,13 +37,13 @@ h1{
     align-self: center;
 }
 
-/* .search-bar {
-    width:50%;
+.search-bar {
+    width:75%;
     align-self: center;
     justify-self: center;
     border-radius: 30px;
     padding: 5px 10px;
-} */
+}
 
 /* .search-bar input{
     background-color: rgba(250, 244, 244, 0.726);

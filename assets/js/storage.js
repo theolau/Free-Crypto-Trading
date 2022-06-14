@@ -5,6 +5,5 @@ function saveToPersistent() {
 
 function initializeFromPersistent() {
     if (localStorage.getItem("pData") != null) { portfolioData = JSON.parse(localStorage.getItem("pData")); } 
-    if (localStorage.getItem("pCash") != null) { availableCash = JSON.parse(localStorage.getItem("pCash")); } 
-    
+    if (localStorage.getItem("pCash") != null) { availableCash = JSON.parse(localStorage.getItem("pCash")); }
 }

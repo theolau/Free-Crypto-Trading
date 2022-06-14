@@ -226,6 +226,7 @@ $('#bar').on('select2:select', function (e) {
   symbol = data.id;
   newsApi(symbolToName(symbol));
   updateWholePage();
+  drawChart();
 });
 
 

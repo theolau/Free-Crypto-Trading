@@ -11,7 +11,7 @@ function newsApi(ticker) {
     redirect: 'follow',
     headers: myHeaders
   };
-  const apiUrl = "https://newsdata.io/api/1/news?language=en&q=" + ticker + "&apikey=" + config.NEWS_API_KEY;
+  const apiUrl = "https://newsdata.io/api/1/news?language=en&q=" + ticker + "&apikey=" + "pub_7954e796c85254c5c9b65121f2a5c943aca3"; //config.NEWS_API_KEY;
   fetch(apiUrl, requestOptions)
     .then(function (response) {
       return response.json();

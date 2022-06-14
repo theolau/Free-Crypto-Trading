@@ -10,8 +10,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="./assets/js/supportedcoins.js"></script>
-  <script src="./assets/js/cg.js"></script>
+
 </head>
 
 <body>
@@ -44,31 +45,31 @@
 
   <div class="mainSection">
     <div class="action-section">
-        <h1>Trade</h1>
-        <div class="input">
-            <div class="input1">
-                <label for="amount">Amount</label>
-                <input type="number" id="amount" name="amount" placeholder="Trade quantity">
-                <label for="total-price">Total Price:</label>
-                <div id="total-price">$0.00</div>
-            </div>
-
-            <div class="input-btn">
-                <button id="buy">Buy</button>
-                <button id="sell">Sell</button>
-            </div>
+      <h1>Trade</h1>
+      <div class="input">
+        <div class="input1">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" name="amount" placeholder="Trade quantity">
+          <label for="total-price">Total Price:</label>
+          <div id="total-price">$0.00</div>
         </div>
+
+        <div class="input-btn">
+          <button id="buy">Buy</button>
+          <button id="sell">Sell</button>
+        </div>
+      </div>
     </div>
 
-      <div class="graph-section">
-        <h1 id="symbol">Coinname</h1>
-        <div class="chart">
+    <div class="graph-section">
+      <h1 id="symbol">Coinname</h1>
+      <div class="chart">
         <div class="current-price"><a id="price">$x</a> USD</div>
-        <div id="price-chart">Chart insert here</div>
+        <div id="price-chart"></div>
       </div>
     </div>
   </div>
-  
+
   <div class="news-section">
     <h1>Recent News</h1>
     <div class="news-item" id="news">
@@ -87,7 +88,7 @@
 
     </div>
   </div>
-  
+
   <div class="portfolio-section" id="portfolio">
     <h1>My Portfolio</h1>
     <table>
@@ -102,7 +103,7 @@
       </thead>
       <tbody id="portfolio-table">
         <tr>
-<!--          <td id="currency-name">bitcoin</td>
+          <!--          <td id="currency-name">bitcoin</td>
           <td id="price">$1</td>
           <td id="quantity">1</td>
           <td id="gain-today">1%</td>
@@ -127,9 +128,10 @@
         </tr>
       </tfoot>
     </table>
-    </div>
-    <button id="clear-memory">Clear All Memory</button>
   </div>
+  <button id="clear-memory">Clear All Memory</button>
+  </div>
+  <script src="./assets/js/cg.js"></script>
   <script src="./assets/js/storage.js"></script>
   <script src="./assets/js/config.js"></script>
   <script src="./assets/js/news.js"></script>

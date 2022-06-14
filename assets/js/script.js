@@ -120,7 +120,7 @@ function pageRefresh() {
 }
 
 // Randomizes prices & refreshes the page every 2 seconds
-setInterval(pageRefresh, 5000);
+//setInterval(pageRefresh, 5000);
 
 
 // Rounds to 10 decimal places. Solves numerical drift from JS floats
@@ -253,21 +253,17 @@ $('#bar').on('select2:select', function (e) {
 });
 
 
-// If we have saved data, then we initialize it & write to memory
-initializeFromPersistent();
+
 
 // Get prices
 var priceMap = {};
-cgPriceUpdate(priceMap);
+cgPriceInitialization();
 
-for (const x in portfolioData) {
-  symbol = x;
-  createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);
-}
-updateCash(availableCash);
-updatePortfolioTotal();
 
 // Set default symbol to btc
 symbol = "bitcoin";
-newsApi(symbolToName(symbol));
-updateSymbol();
+newsApi("Bitcoin");
+
+// Chart
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);

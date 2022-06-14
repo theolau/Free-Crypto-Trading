@@ -40,6 +40,9 @@ function newsApi(ticker) {
         // Set author content
         //articleAuthor.textContent = data.results[i].creator[0] + " from " + data.results[i].source_id;
 
+        // Skip any results with both no description and no content field
+        if (data.results[i].description == null && data.results[i].content == null) { continue; }
+
         // We check for results.content being null
         // This api returns some articles with content == null & something in results.description
         if (data.results[i].description != null) {

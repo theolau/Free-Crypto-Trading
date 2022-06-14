@@ -37,15 +37,15 @@ function createCoinRow(ticker, purchasePrice, quantity) {
   newQuantity.textContent = quantity;
 
   // TODO: call api to calculate a value for this
-  var newTodayGainLoss = document.createElement('td');
-  newTodayGainLoss.setAttribute("id", ticker + "-today-gl");
-  newTodayGainLoss.textContent = "TODO: Fix this";
+  var newPricePerCoin = document.createElement('td');
+  newPricePerCoin.setAttribute("id", ticker + "-current-price");
+  newPricePerCoin.textContent = "$" + currentPrice(ticker);
 
   var newTotalGainLoss = document.createElement('td');
   newTotalGainLoss.setAttribute("id", ticker + "-total-gl");
   newTotalGainLoss.textContent = "$" + (quantity * (currentPrice(ticker) - purchasePrice)).toFixed(2)
 
-  newRow.append(newSymbol, newCurrentValue, newQuantity, newTodayGainLoss, newTotalGainLoss);
+  newRow.append(newSymbol, newCurrentValue, newQuantity, newPricePerCoin, newTotalGainLoss);
 
   document.getElementById("portfolio-table").append(newRow);
 }
@@ -56,7 +56,7 @@ function updateCoinRow(ticker, costBasis, quantity) {
   document.getElementById(ticker + "-quantity").textContent = quantity;
 
   // TODO: call api to calculate a value for this
-  document.getElementById(ticker + "-today-gl").textContent = "TODO: Fix this";
+  document.getElementById(ticker + "-current-price").textContent = "$" + currentPrice(ticker);
 
   document.getElementById(ticker + "-total-gl").textContent = "$" + (quantity * (currentPrice(ticker) - costBasis)).toFixed(2);
 }
@@ -84,8 +84,7 @@ function updatePortfolioTotal() {
 }
 
 function updatePrice() {
-  document.getElementById("price").textContent = "$" + currentPrice(symbol).toFixed(2);
-  console.log("$" + currentPrice(symbol).toFixed(2));
+  document.getElementById("price").textContent = "$" + currentPrice(symbol);
 }
 
 /* Yes, I know this is terrible code and this is the poster child for hashmaps.
@@ -138,6 +137,12 @@ $('#amount').on('keyup change textInput input', function () {
 });
 
 document.getElementById("buy").onclick = function () {
+  if (document.getElementById("amount").value == "") {
+    console.log("you're not allowed to buy/sell zero or negatives");
+    return;
+  }
+  console.log(document.getElementById("amount").value);
+  
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
   // TODO: display some error

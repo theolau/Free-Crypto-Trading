@@ -23,7 +23,7 @@ function cgPriceInitialization() {
             updateCash(availableCash);
             updatePrice();
             updatePortfolioTotal();
-            document.getElementById("symbol").textContent = "Bitcoin";
+            document.getElementById("symbol").textContent = symbolToName(symbol);
         })
         .catch(function (error) {
             console.log('error', error);

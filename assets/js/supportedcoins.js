@@ -1,31 +1,4 @@
-/*
-Array of coins supported by our platform - used by select2 to generate our search + selection box
-Currently hardcoded, but if time permits, we could consider dynamically generating this from API data
-*/
-/*
-var coins = [
-    {
-        id: "bitcoin",
-        text: "Bitcoin"
-    },
-    {
-        id: "ethereum",
-        text: "Ethereum"
-    },
-    {
-        id: "xrp",
-        text: "Ripple"
-    },
-    {
-        id: "doge",
-        text: "Dogecoin"
-    },
-    {
-        id: "dai",
-        text: "Dai"
-    }
-];
-*/
+// Hardcoded array of coins supported by our platform - used by select2 to generate our search + selection box
 
 var coins = [
     {

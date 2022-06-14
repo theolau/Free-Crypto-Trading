@@ -1,10 +1,9 @@
 // Using this API: https://newsdata.io/api-key
 // Add API key to config.js
 
-// Div to target id="news"
 var newsContainer = document.getElementById('news');
 
-// Expecting a string arg of a crypto ticker. ie: btc, eth, xrp
+// Expecting a string arg of a crypto name
 function newsApi(ticker) {
   const myHeaders = new Headers();
   const requestOptions = {
@@ -18,27 +17,17 @@ function newsApi(ticker) {
       return response.json();
     })
     .then(function (data) {
-
-      // Outputs response to console
-      // TODO: remove this prior to release
-      /*console.log(data);
-      console.log(data.results.length);*/
-
       // Clear all existing news articles
       newsContainer.innerHTML = '';
 
       for (let i = 0; i < Math.min(data.results.length, 5); i++) {
         var articleTitle = document.createElement('h4');
         articleTitle.setAttribute("class", "news-tittle");
-        //var articleAuthor = document.createElement('h4');
         var articleBody = document.createElement('div');
         articleBody.setAttribute("class", "news-body");
 
         // Set title content
         articleTitle.textContent = data.results[i].title;
-
-        // Set author content
-        //articleAuthor.textContent = data.results[i].creator[0] + " from " + data.results[i].source_id;
 
         // Skip any results with both no description and no content field
         if (data.results[i].description == null && data.results[i].content == null) { continue; }
@@ -62,7 +51,6 @@ function newsApi(ticker) {
 
         // Append
         newsContainer.append(articleTitle);
-        //newsContainer.append(articleAuthor);
         newsContainer.append(articleBody);
 
         // Append a link to the full article

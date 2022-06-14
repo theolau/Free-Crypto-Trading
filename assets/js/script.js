@@ -1,10 +1,10 @@
 // This is the current working symbol
 var symbol;
-const defaultSymbol = "bitcoin";
 
 // We can set the default portfolio here
+const defaultSymbol = "bitcoin";
 var portfolioData = {};
-let availableCash = 250000;
+var availableCash = 250000;
 
 // Returns the current price of a coin
 function currentPrice(ticker) {
@@ -16,26 +16,26 @@ function currentPrice(ticker) {
 
 // Creates a new row when purchasing of a coin or when loading saved data
 function createCoinRow(ticker, purchasePrice, quantity) {
-  var newRow = document.createElement('tr');
+  let newRow = document.createElement('tr');
   newRow.setAttribute("id", ticker);
 
-  var newSymbol = document.createElement('td');
+  let newSymbol = document.createElement('td');
   newSymbol.setAttribute("id", ticker + "-symbol");
-  newSymbol.textContent = ticker;
+  newSymbol.textContent = symbolToName(ticker);
 
-  var newCurrentValue = document.createElement('td');
+  let newCurrentValue = document.createElement('td');
   newCurrentValue.setAttribute("id", ticker + "-current-value");
   newCurrentValue.textContent = "$" + (currentPrice(ticker) * quantity).toFixed(2);
 
-  var newQuantity = document.createElement('td');
+  let newQuantity = document.createElement('td');
   newQuantity.setAttribute("id", ticker + "-quantity");
   newQuantity.textContent = quantity;
 
-  var newPricePerCoin = document.createElement('td');
+  let newPricePerCoin = document.createElement('td');
   newPricePerCoin.setAttribute("id", ticker + "-current-price");
   newPricePerCoin.textContent = "$" + currentPrice(ticker);
 
-  var newTotalGainLoss = document.createElement('td');
+  let newTotalGainLoss = document.createElement('td');
   newTotalGainLoss.setAttribute("id", ticker + "-total-gl");
   newTotalGainLoss.textContent = "$" + (quantity * (currentPrice(ticker) - purchasePrice)).toFixed(2)
 
@@ -64,7 +64,7 @@ function updateCash(x) {
 
 // Updates the portfolio total value display
 function updatePortfolioTotal() {
-  var portfolioSum = 0;
+  let portfolioSum = 0;
   for (const x in portfolioData) {
     portfolioSum += currentPrice(x) * portfolioData[x].savedQuantity;
   }
@@ -239,7 +239,7 @@ $('#bar').select2({
 
 // Function triggered on selection
 $('#bar').on('select2:select', function (e) {
-  var data = e.params.data;
+  let data = e.params.data;
   symbol = data.id;
   newsApi(symbolToName(symbol));
   updateWholePage();

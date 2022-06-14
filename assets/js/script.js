@@ -1,13 +1,12 @@
 // This is the current working symbol
 var symbol;
+const defaultSymbol = "bitcoin";
 
 // We can set the default portfolio here
 var portfolioData = {};
 let availableCash = 250000;
 
-// Returns the current price of a coin - currently using randomised data cached for 15 seconds
-// TODO: this function needs to call our API and return a current price for a given coin
-// this function should probably cache a price for a short period as well, because we call it a lot
+// Returns the current price of a coin
 function currentPrice(ticker) {
   if (priceMap[ticker]) {
     return priceMap[ticker].price;
@@ -15,14 +14,10 @@ function currentPrice(ticker) {
   else { return 0; }
 }
 
-
+// Creates a new row when purchasing of a coin or when loading saved data
 function createCoinRow(ticker, purchasePrice, quantity) {
   var newRow = document.createElement('tr');
   newRow.setAttribute("id", ticker);
-
-  // TODO: write logic to check the previous coin's color (class var) & alternate colors
-  // for now, we hardcode "coin coin1"
-  // newRow.setAttribute("class", "coin coin1");
 
   var newSymbol = document.createElement('td');
   newSymbol.setAttribute("id", ticker + "-symbol");
@@ -36,7 +31,6 @@ function createCoinRow(ticker, purchasePrice, quantity) {
   newQuantity.setAttribute("id", ticker + "-quantity");
   newQuantity.textContent = quantity;
 
-  // TODO: call api to calculate a value for this
   var newPricePerCoin = document.createElement('td');
   newPricePerCoin.setAttribute("id", ticker + "-current-price");
   newPricePerCoin.textContent = "$" + currentPrice(ticker);
@@ -50,29 +44,23 @@ function createCoinRow(ticker, purchasePrice, quantity) {
   document.getElementById("portfolio-table").append(newRow);
 }
 
-
+// Updates a row on coin purchase/sale
 function updateCoinRow(ticker, costBasis, quantity) {
   document.getElementById(ticker + "-current-value").textContent = "$" + (currentPrice(ticker) * quantity).toFixed(2);
   document.getElementById(ticker + "-quantity").textContent = quantity;
-
-  // TODO: call api to calculate a value for this
   document.getElementById(ticker + "-current-price").textContent = "$" + currentPrice(ticker);
-
   document.getElementById(ticker + "-total-gl").textContent = "$" + (quantity * (currentPrice(ticker) - costBasis)).toFixed(2);
 }
-
 
 // Deletes a row 
 function deleteRow(ticker) {
   document.getElementById(ticker).remove();
 }
 
-
 // Updates the available cash display
 function updateCash(x) {
   document.getElementById("cash").textContent = "$" + x.toFixed(2);
 }
-
 
 // Updates the portfolio total value display
 function updatePortfolioTotal() {
@@ -83,14 +71,13 @@ function updatePortfolioTotal() {
   document.getElementById("portfolio-total").textContent = "$" + (availableCash + portfolioSum).toFixed(2);
 }
 
+// Updates the price display for the current symbol
 function updatePrice() {
   document.getElementById("price").textContent = "$" + currentPrice(symbol);
 }
 
-/* Yes, I know this is terrible code and this is the poster child for hashmaps.
-Unfortunately, select2 requires an array or json input
-and it's not worth creating a hashmap of the same data for this purpose only.
-Either way, our dataset is small enough to not really care about performance */
+
+// Takes a coin id (see: coingecko documentation) and outputs the full name
 function symbolToName(x) {
   if (priceMap[x]) { return priceMap[x].name; }
   else {
@@ -99,11 +86,13 @@ function symbolToName(x) {
   }
 }
 
+// Updates the current symbol box
 function updateSymbol() {
   document.getElementById("symbol").textContent = symbolToName(symbol);
   console.log(symbolToName(symbol));
 }
 
+// Updates the whole page
 function updateWholePage() {
   for (const x in portfolioData) {
     updateCoinRow(x, portfolioData[x]["savedPurchasePrice"], portfolioData[x]["savedQuantity"]);
@@ -117,24 +106,24 @@ function pageRefresh() {
   cgPriceUpdate(priceMap);
   updateWholePage();
 }
-
-// Randomizes prices & refreshes the page every 2 seconds
-//setInterval(pageRefresh, 5000);
+// Updates prices (API call) & refreshes the page every 15 seconds
+setInterval(pageRefresh, 15000);
 
 
 // Rounds to 10 decimal places. Solves numerical drift from JS floats
-// & allows us to only store a calculated cost basis + qty, instead of storing an array of transactions
+// & allows us to only store a calculated cost basis + qty, instead of storing a log of transactions
 function round(x) {
   return Math.round(x * 10000000000) / 10000000000;
 }
 
 
-//document.getElementById("amount").addEventListener('change', updateValue);
-
+// Update the transaction price box as the user types
 $('#amount').on('keyup change textInput input', function () {
   if (this.value == 0) { document.getElementById("total-price").textContent = "$0.00"; }
   else { document.getElementById("total-price").textContent = "$" + (parseFloat(this.value, 10) * currentPrice(symbol)).toFixed(2); }
 });
+
+
 
 document.getElementById("buy").onclick = function () {
   if (document.getElementById("amount").value == "") {
@@ -142,7 +131,7 @@ document.getElementById("buy").onclick = function () {
     return;
   }
   console.log(document.getElementById("amount").value);
-  
+
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
   // TODO: display some error
@@ -229,13 +218,13 @@ document.getElementById("sell").onclick = function () {
   }
 };
 
-
+// Clear memory button - clears all local data & resets page to defaults
 document.getElementById("clear-memory").onclick = function () {
   localStorage.clear();
   for (const x in portfolioData) { deleteRow(x); }
   portfolioData = {};
   availableCash = 250000;
-  symbol = "bitcoin";
+  symbol = defaultSymbol;
   newsApi(symbolToName(symbol));
   updatePrice();
   updateSymbol();
@@ -248,7 +237,6 @@ $('#bar').select2({
   data: coins // array of coins in supportedcoins.js
 });
 
-
 // Function triggered on selection
 $('#bar').on('select2:select', function (e) {
   var data = e.params.data;
@@ -258,16 +246,12 @@ $('#bar').on('select2:select', function (e) {
 });
 
 
-
-
-// Get prices
+// Gets price data & page initialization procedures
 var priceMap = {};
 cgPriceInitialization();
 
-
-// Set default symbol to btc
-symbol = "bitcoin";
-newsApi("Bitcoin");
+// Set default symbol
+symbol = defaultSymbol;
 
 // Chart
 google.charts.load('current', { 'packages': ['corechart'] });

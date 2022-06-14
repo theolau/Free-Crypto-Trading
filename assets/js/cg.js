@@ -1,3 +1,4 @@
+// Gets the initial price data & calls functions to generate various parts of the page
 function cgPriceInitialization() {
     const requestOptions = {
         method: 'GET',
@@ -12,6 +13,7 @@ function cgPriceInitialization() {
             for (let i = 0; i < data.length; i++) {
                 priceMap[data[i].id] = { "price": data[i].current_price, "name": data[i].name };
             }
+
             // If we have saved data, then we initialize it & write to memory
             initializeFromPersistent();
 
@@ -19,11 +21,13 @@ function cgPriceInitialization() {
                 symbol = x;
                 createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);
             }
-            symbol = "bitcoin"; // default symbol
+
+            symbol = defaultSymbol;
             updateCash(availableCash);
             updatePrice();
             updatePortfolioTotal();
             document.getElementById("symbol").textContent = symbolToName(symbol);
+            newsApi(symbolToName(symbol));
         })
         .catch(function (error) {
             console.log('error', error);
@@ -41,10 +45,7 @@ function cgPriceUpdate(priceMap) {
             return response.json();
         })
         .then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                priceMap[data[i].id] = { "price": data[i].current_price, "name": data[i].name };
-            }
-
+            for (var i = 0; i < data.length; i++) { priceMap[data[i].id] = { "price": data[i].current_price, "name": data[i].name }; }
         })
         .catch(function (error) {
             console.log('error', error);

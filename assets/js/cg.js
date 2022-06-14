@@ -1,4 +1,4 @@
-function cgPriceInitialization(priceMap) {
+function cgPriceInitialization() {
     const requestOptions = {
         method: 'GET',
         headers: { 'accept': 'application/json', }
@@ -9,10 +9,21 @@ function cgPriceInitialization(priceMap) {
             return response.json();
         })
         .then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                priceMap[data[i].id] = {"price": data[i].current_price, "name": data[i].name};
+            for (let i = 0; i < data.length; i++) {
+                priceMap[data[i].id] = { "price": data[i].current_price, "name": data[i].name };
             }
+            // If we have saved data, then we initialize it & write to memory
+            initializeFromPersistent();
 
+            for (const x in portfolioData) {
+                symbol = x;
+                createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);
+            }
+            symbol = "bitcoin"; // default symbol
+            updateCash(availableCash);
+            updatePrice();
+            updatePortfolioTotal();
+            document.getElementById("symbol").textContent = "Bitcoin";
         })
         .catch(function (error) {
             console.log('error', error);
@@ -31,7 +42,7 @@ function cgPriceUpdate(priceMap) {
         })
         .then(function (data) {
             for (var i = 0; i < data.length; i++) {
-                priceMap[data[i].id] = {"price": data[i].current_price, "name": data[i].name};
+                priceMap[data[i].id] = { "price": data[i].current_price, "name": data[i].name };
             }
 
         })
@@ -54,7 +65,7 @@ function drawChart() {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);  
+            console.log(data);
             var newTable = new google.visualization.DataTable();
             newTable.addColumn('number', 'X');
             newTable.addColumn('number', 'USD $');

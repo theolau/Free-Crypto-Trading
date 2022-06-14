@@ -1,4 +1,4 @@
-function cgPriceUpdate() {
+function cgPriceUpdate(priceMap) {
     const requestOptions = {
         method: 'GET',
         headers: { 'accept': 'application/json', }
@@ -10,13 +10,11 @@ function cgPriceUpdate() {
         })
         .then(function (data) {
             for (var i = 0; i < data.length; i++) {
-                newMap[data[i].id] = {"price": data[i].current_price, "name": data[i].name};
+                priceMap[data[i].id] = {"price": data[i].current_price, "name": data[i].name};
             }
-            console.log(newMap);
+            console.log(priceMap);
         })
         .catch(function (error) {
             console.log('error', error);
         })
 }
-var newMap = {};
-cgPriceUpdate();

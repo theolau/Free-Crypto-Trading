@@ -271,3 +271,7 @@ updatePortfolioTotal();
 symbol = "bitcoin";
 newsApi(symbolToName(symbol));
 updateSymbol();
+
+// Chart
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);

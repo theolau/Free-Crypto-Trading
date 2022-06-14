@@ -5,19 +5,14 @@ var symbol;
 var portfolioData = {};
 let availableCash = 250000;
 
-// TODO: delete when current price gets real data
-function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
-
 // Returns the current price of a coin - currently using randomised data cached for 15 seconds
 // TODO: this function needs to call our API and return a current price for a given coin
 // this function should probably cache a price for a short period as well, because we call it a lot
-var lastPrice = {};
-for (let i = 0; i < coins.length; i++) { // temp - randomizes prices at start
-  lastPrice[coins[i].id] = rand(0.01, 25000);
-}
 function currentPrice(ticker) {
-  if (lastPrice[ticker]) { return lastPrice[ticker]; }
-  else { return 999999; }
+  if (priceMap[ticker]) {
+    return priceMap[ticker].price;
+  }
+  else { return 0; }
 }
 
 
@@ -97,11 +92,12 @@ function updatePrice() {
 Unfortunately, select2 requires an array or json input
 and it's not worth creating a hashmap of the same data for this purpose only.
 Either way, our dataset is small enough to not really care about performance */
-function symbolToName() {
-  for (let i = 0; i < coins.length; i++) {
-    if (coins[i].id == symbol) { return coins[i].text; }
+function symbolToName(x) {
+  if (priceMap[x]) { return priceMap[x].name; }
+  else {
+    console.log("error, can't lookup symbol");
+    return "";
   }
-  return "error, can't lookup symbol"
 }
 
 function updateSymbol() {
@@ -119,14 +115,12 @@ function updateWholePage() {
 }
 
 function pageRefresh() {
-  for (let i = 0; i < coins.length; i++) { // for testing purposes, this randomizes the prices
-    lastPrice[coins[i].id] = rand(0.01, 25000);
-  }
+  cgPriceUpdate(priceMap);
   updateWholePage();
 }
 
-// Randomizes prices & refreshes the page every 15 seconds
-setInterval(pageRefresh, 15000);
+// Randomizes prices & refreshes the page every 2 seconds
+setInterval(pageRefresh, 5000);
 
 
 // Rounds to 10 decimal places. Solves numerical drift from JS floats
@@ -231,16 +225,16 @@ document.getElementById("sell").onclick = function () {
 };
 
 
- document.getElementById("clear-memory").onclick = function () {
+document.getElementById("clear-memory").onclick = function () {
   localStorage.clear();
   for (const x in portfolioData) { deleteRow(x); }
   portfolioData = {};
   availableCash = 250000;
-  symbol = "btc";
-  newsApi(symbol);
+  symbol = "bitcoin";
+  newsApi(symbolToName(symbol));
   updatePrice();
   updateSymbol();
- };
+};
 
 
 // Initialization parameters for select2
@@ -254,13 +248,18 @@ $('#bar').select2({
 $('#bar').on('select2:select', function (e) {
   var data = e.params.data;
   symbol = data.id;
-  newsApi(symbol);
+  newsApi(symbolToName(symbol));
   updateWholePage();
 });
 
 
 // If we have saved data, then we initialize it & write to memory
 initializeFromPersistent();
+
+// Get prices
+var priceMap = {};
+cgPriceUpdate(priceMap);
+
 for (const x in portfolioData) {
   symbol = x;
   createCoinRow(symbol, portfolioData[x].savedPurchasePrice, portfolioData[x].savedQuantity);
@@ -269,7 +268,6 @@ updateCash(availableCash);
 updatePortfolioTotal();
 
 // Set default symbol to btc
-symbol = "btc";
-newsApi(symbol);
-updatePrice();
+symbol = "bitcoin";
+newsApi(symbolToName(symbol));
 updateSymbol();

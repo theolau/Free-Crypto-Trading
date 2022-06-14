@@ -5,18 +5,13 @@ var symbol;
 var portfolioData = {};
 let availableCash = 250000;
 
-// TODO: delete when current price gets real data
-function rand(x, y) { return (Math.round((Math.random() * y + x) * 100) / 100); }
-
 // Returns the current price of a coin - currently using randomised data cached for 15 seconds
 // TODO: this function needs to call our API and return a current price for a given coin
 // this function should probably cache a price for a short period as well, because we call it a lot
-var lastPrice = {};
-for (let i = 0; i < coins.length; i++) { // temp - randomizes prices at start
-  lastPrice[coins[i].id] = rand(0.01, 25000);
-}
 function currentPrice(ticker) {
-  if (lastPrice[ticker]) { return lastPrice[ticker]; }
+  if (newMap[ticker]) {
+     return newMap[ticker].price;
+    }
   else { return 999999; }
 }
 
@@ -236,8 +231,8 @@ document.getElementById("sell").onclick = function () {
   for (const x in portfolioData) { deleteRow(x); }
   portfolioData = {};
   availableCash = 250000;
-  symbol = "btc";
-  newsApi(symbol);
+  symbol = "bitcoin";
+  newsApi(symbolToName());
   updatePrice();
   updateSymbol();
  };
@@ -254,7 +249,7 @@ $('#bar').select2({
 $('#bar').on('select2:select', function (e) {
   var data = e.params.data;
   symbol = data.id;
-  newsApi(symbol);
+  newsApi(symbolToName());
   updateWholePage();
 });
 
@@ -269,7 +264,7 @@ updateCash(availableCash);
 updatePortfolioTotal();
 
 // Set default symbol to btc
-symbol = "btc";
-newsApi(symbol);
+symbol = "bitcoin";
+newsApi(symbolToName());
 updatePrice();
 updateSymbol();

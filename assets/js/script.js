@@ -53,14 +53,10 @@ function updateCoinRow(ticker, costBasis, quantity) {
 }
 
 // Deletes a row 
-function deleteRow(ticker) {
-  document.getElementById(ticker).remove();
-}
+function deleteRow(ticker) { document.getElementById(ticker).remove(); }
 
 // Updates the available cash display
-function updateCash(x) {
-  document.getElementById("cash").textContent = "$" + x.toFixed(2);
-}
+function updateCash(x) { document.getElementById("cash").textContent = "$" + x.toFixed(2); }
 
 // Updates the portfolio total value display
 function updatePortfolioTotal() {
@@ -72,25 +68,20 @@ function updatePortfolioTotal() {
 }
 
 // Updates the price display for the current symbol
-function updatePrice() {
-  document.getElementById("price").textContent = "$" + currentPrice(symbol);
-}
+function updatePrice() { document.getElementById("price").textContent = "$" + currentPrice(symbol); }
 
 
 // Takes a coin id (see: coingecko documentation) and outputs the full name
 function symbolToName(x) {
   if (priceMap[x]) { return priceMap[x].name; }
   else {
-    console.log("error, can't lookup symbol");
+    openModal("Error, can't lookup symbol");
     return "";
   }
 }
 
 // Updates the current symbol box
-function updateSymbol() {
-  document.getElementById("symbol").textContent = symbolToName(symbol);
-  console.log(symbolToName(symbol));
-}
+function updateSymbol() { document.getElementById("symbol").textContent = symbolToName(symbol); }
 
 // Updates the whole page
 function updateWholePage() {
@@ -112,9 +103,7 @@ setInterval(pageRefresh, 15000);
 
 // Rounds to 10 decimal places. Solves numerical drift from JS floats
 // & allows us to only store a calculated cost basis + qty, instead of storing a log of transactions
-function round(x) {
-  return Math.round(x * 10000000000) / 10000000000;
-}
+function round(x) { return Math.round(x * 10000000000) / 10000000000; }
 
 
 // Update the transaction price box as the user types
@@ -127,22 +116,19 @@ $('#amount').on('keyup change textInput input', function () {
 
 document.getElementById("buy").onclick = function () {
   if (document.getElementById("amount").value == "") {
-    console.log("you're not allowed to buy/sell zero or negatives");
+    openModal("You're not allowed to buy zero coins.");
     return;
   }
-  console.log(document.getElementById("amount").value);
 
   const quantity = parseFloat(document.getElementById("amount").value, 10);
 
-  // TODO: display some error
   if (quantity * currentPrice(symbol) > availableCash) {
-    console.log("insufficient cash to purchase");
+    openModal("Insufficient cash to purchase.");
     return;
   }
 
-  // TODO: display some error
   if (quantity <= 0) {
-    console.log("you're not allowed to buy/sell zero or negatives")
+    openModal("You're not allowed to buy zero or negatives coins.")
     return;
   }
 
@@ -179,13 +165,12 @@ document.getElementById("sell").onclick = function () {
     // We do not allow people to short
     // TODO: display some error
     if (quantity > portfolioData[symbol]["savedQuantity"]) {
-      console.log("you can't sell more of this symbol than you own");
+      openModal("You can't sell more of than you own. Short sales are not allowed.");
       return;
     }
 
-    // TODO: display some error
     if (!quantity) {
-      console.log("you're not allowed to buy/sell zero or negatives")
+      openModal("You're not allowed to sell zero coins.")
       return;
     }
 
@@ -212,10 +197,7 @@ document.getElementById("sell").onclick = function () {
     updatePrice();
     saveToPersistent();
   }
-  else {
-    // TODO: display some error
-    console.log("you don't own this coin")
-  }
+  else { openModal("You don't own any of this coin to sell.") }
 };
 
 // Clear memory button - clears all local data & resets page to defaults
@@ -228,6 +210,7 @@ document.getElementById("clear-memory").onclick = function () {
   newsApi(symbolToName(symbol));
   updatePrice();
   updateSymbol();
+  openModal("Client data has been successfully cleared.");
 };
 
 
@@ -243,7 +226,24 @@ $('#bar').on('select2:select', function (e) {
   symbol = data.id;
   newsApi(symbolToName(symbol));
   updateWholePage();
+  drawChart();
 });
+
+
+// Modal
+var modal = document.getElementById("error-modal");
+
+// Close the modal when clicking the X
+document.getElementById("close").onclick = function () { modal.style.display = "none"; }
+
+// Close the modal when clicking out
+window.onclick = function (x) { if (x.target == modal) { modal.style.display = "none"; } }
+
+// Function for opening modal + displaying some text
+function openModal(input) {
+  modal.style.display = "block";
+  document.getElementById("modal-text").textContent = input;
+}
 
 
 // Gets price data & page initialization procedures

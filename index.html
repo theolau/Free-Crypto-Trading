@@ -11,11 +11,21 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
   <script src="./assets/js/supportedcoins.js"></script>
 
 </head>
 
 <body>
+
+  <!-- Modal for displaying errors -->
+  <div id="error-modal" class="modal">
+    <div class="modal-content">
+      <span id="close" class="close">&times;</span>
+      <div id="modal-text" class="modal-text"></div>
+    </div>
+
+  </div>
   <!-- navbar section -->
   <nav class="navbar">
     <div class="logo">

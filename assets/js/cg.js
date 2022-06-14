@@ -55,7 +55,6 @@ function cgPriceUpdate(priceMap) {
 
 function drawChart() {
 
-
     const requestOptions = {
         method: 'GET',
         headers: { 'accept': 'application/json', }
@@ -66,19 +65,26 @@ function drawChart() {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
             var newTable = new google.visualization.DataTable();
-            newTable.addColumn('number', 'X');
+            newTable.addColumn('date', 'X');
             newTable.addColumn('number', 'USD $');
 
             for (let i = 0; i < data[0].sparkline_in_7d.price.length; i++) {
-                newTable.addRows([[i, data[0].sparkline_in_7d.price[i]]]);
+                let x = new Date();
+                momentObj = moment(x).subtract((168 - i), 'hours');
+                newDate = momentObj.toDate();
+                newTable.addRows([[newDate, data[0].sparkline_in_7d.price[i]]]);
             }
-            console.log(newTable);
 
             var options = {
-                title: (symbolToName(symbol) + " 7 Day Graph"),
-                legend: { position: 'bottom' }
+                title: symbolToName(symbol),
+                legend: { position: 'bottom' },
+                hAxis: {
+                    format: 'M/d/yy',
+                    gridlines: {
+                        count: 15,
+                    }
+                }
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('price-chart'));

@@ -1,5 +1,7 @@
 # Free Crypto Trading
 
+Live demo: https://theolau.github.io/Free-Crypto-Trading/
+
 Free Crypto Trading is a webapp that allows users to trade with a simulated crypto portfolio with real time live data and news.
 
 Users can experience the thrill and fun of trading cryptocurrencies without any of the massive risk in today's volatile market.

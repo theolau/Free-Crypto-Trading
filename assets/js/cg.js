@@ -57,7 +57,7 @@ function drawChart() {
 
     const requestOptions = {
         method: 'GET',
-        headers: { 'accept': 'application/json', }
+        headers: { 'accept': 'application/json' }
     };
     const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" + symbol + "&order=market_cap_desc&per_page=100&page=1&sparkline=true";
     fetch(url, requestOptions)

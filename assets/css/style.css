@@ -464,10 +464,11 @@ td:last-child {
 .modal-text {
     margin: auto;
     text-align: center;
-    width: 50%;
+    width: 90%;
     font-size: 20px;
     height: 150px;
     line-height: 150px;
+    overflow-wrap: break-word;
 }
 
 .close {

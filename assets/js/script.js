@@ -165,7 +165,7 @@ document.getElementById("sell").onclick = function () {
     // We do not allow people to short
     // TODO: display some error
     if (quantity > portfolioData[symbol]["savedQuantity"]) {
-      openModal("You can't sell more of than you own. Short sales are not allowed.");
+      openModal("You can't sell more than you own. Short sales are not permitted.");
       return;
     }
 

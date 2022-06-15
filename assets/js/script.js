@@ -226,6 +226,7 @@ $('#bar').on('select2:select', function (e) {
   symbol = data.id;
   newsApi(symbolToName(symbol));
   updateWholePage();
+  document.getElementById("total-price").textContent = "$" + (parseFloat(document.getElementById('amount').value, 10) * currentPrice(symbol)).toFixed(2);
   drawChart();
 });
 
